@@ -44,17 +44,19 @@
 
       $scope.MyDelegate = {
         configureItemScope : function(index, itemScope) {
-	    	if (!itemScope.item) {
+            if (!itemScope.item) {
 
-	          console.log("Created item #" + index);
-	           itemScope.item = {
-	            title: 'Item #' + (index + 1),
-	            label: '',
-	            desc: '',
-	            rand: Math.random()
-	          };
-	          $http.get('https://baconipsum.com/api/?type=meat-and-filler&sentences=1').success(function(data){itemScope.item.desc = data[0]; itemScope.item.label = itemScope.item.desc.substr(0, itemScope.item.desc.indexOf(" ")) + 'bacon'}).error(function(){itemScope.item.desc = 'No bacon lorem ipsum'; itemScope.item.label = 'No bacon'});
-			}
+              console.log("Created item #" + index);
+               itemScope.item = {
+                title: 'Item #' + (index + 1),
+                label: '',
+                desc: '',
+                rand: Math.random()
+              };
+
+              $http.get('https://baconipsum.com/api/?type=meat-and-filler&sentences=1').success(function(data){itemScope.item.desc = data[0]; itemScope.item.label = itemScope.item.desc.substr(0, itemScope.item.desc.indexOf(" ")) + 'bacon'}).error(function(){itemScope.item.desc = 'No bacon lorem ipsum'; itemScope.item.label = 'No bacon'});
+
+          }
         },
         calculateItemHeight : function(index) {
           return 91;
@@ -67,10 +69,7 @@
         }
       };
     }]);
-
   </script>
-
-
 </head>
 
 <body ng-controller="MyCtrl">
@@ -79,22 +78,22 @@
       <div class="center">Lazy Repeat</div>
     </ons-toolbar>
 
-<ons-list>
-	<ons-list-item modifier="chevron" class="item" ons-lazy-repeat="MyDelegate">
-		<ons-row>
-			<ons-col width="80px">
-				<img ng-src="http://lorempixel.com/60/60/?{{item.rand}}" class="item-thum"></img>
-			</ons-col>
-			<ons-col>
-				<header>
-					<span class="item-title">{{item.title}}</span>
-					<span class="item-label">{{item.label}}</span>
-				</header>
-				<p class="item-desc">{{ item.desc }}</p>
-			</ons-col>
-		</ons-row>
-	</ons-list-item>
-</ons-list>
-
+    <ons-list>
+      <ons-list-item modifier="chevron" class="item" ons-lazy-repeat="MyDelegate">
+        <ons-row>
+          <ons-col width="80px">
+            <img ng-src="http://lorempixel.com/60/60/?{{item.rand}}" class="item-thum"></img>
+          </ons-col>
+          <ons-col>
+            <header>
+              <span class="item-title">{{item.title}}</span>
+              <span class="item-label">{{item.label}}</span>
+            </header>
+            <p class="item-desc">{{item.desc}}</p>
+          </ons-col>
+        </ons-row>
+      </ons-list-item>
+    </ons-list>
+  </ons-page>
 </body>
 </html>
