@@ -89,6 +89,14 @@
               <span class="item-title">{{item.title}}</span>
               <span class="item-label">{{item.label}}</span>
             </header>
+            <div ng-show="item.desc==''">
+              <p>
+                <span style='opacity: 0.7;'>
+                  <ons-icon icon='fa-spinner' spin='true'></ons-icon>
+                  Loading bacon...
+                </span>
+              </p>
+            </div>
             <p class="item-desc">{{item.desc}}</p>
           </ons-col>
         </ons-row>
