@@ -40,7 +40,7 @@
   <script src="build/js/onsenui.js"></script>
   <script>
     var app = angular.module('myApp', ['onsen']);
-    app.controller('MyCtrl', ['$scope','$http', function($scope,$http) {
+    app.controller('MyCtrl', ['$scope','$http', '$q', function($scope,$http,$q) {
 
       $scope.MyDelegate = {
         configureItemScope : function(index, itemScope) {
@@ -54,8 +54,9 @@
                 rand: Math.random()
               };
 
-              $http.get('https://baconipsum.com/api/?type=meat-and-filler&sentences=1').success(function(data){itemScope.item.desc = data[0]; itemScope.item.label = itemScope.item.desc.substr(0, itemScope.item.desc.indexOf(" ")) + 'bacon'}).error(function(){itemScope.item.desc = 'No bacon lorem ipsum'; itemScope.item.label = 'No bacon'});
-
+              var deferred = $q.defer();
+              itemScope.deferred = deferred;
+              $http.get('https://baconipsum.com/api/?type=meat-and-filler&sentences=1', {timeout:deferred.promise}).success(function(data){itemScope.item.desc = data[0]; itemScope.item.label = itemScope.item.desc.substr(0, itemScope.item.desc.indexOf(" ")) + 'bacon'}).error(function(){itemScope.item.desc = 'No bacon lorem ipsum'; itemScope.item.label = 'No bacon'});
           }
         },
         calculateItemHeight : function(index) {
@@ -66,6 +67,7 @@
         },
         destroyItemScope: function(index, scope) {
           console.log("Destroyed item #" + index);
+          scope.deferred.resolve();
         }
       };
     }]);
