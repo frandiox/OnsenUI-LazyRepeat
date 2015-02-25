@@ -57,7 +57,7 @@
               var deferred = $q.defer();
               itemScope.deferred = deferred;
               $http.get('https://baconipsum.com/api/?type=meat-and-filler&sentences=1', {timeout:deferred.promise}).success(function(data){itemScope.item.desc = data[0]; itemScope.item.label = itemScope.item.desc.substr(0, itemScope.item.desc.indexOf(" ")) + 'bacon'}).error(function(){itemScope.item.desc = 'No bacon lorem ipsum'; itemScope.item.label = 'No bacon'});
-          }
+            }
         },
         calculateItemHeight : function(index) {
           return 91;
@@ -68,6 +68,9 @@
         destroyItemScope: function(index, scope) {
           console.log("Destroyed item #" + index);
           scope.deferred.resolve();
+          if (!scope.item.desc){
+          	delete scope.item;
+          }
         }
       };
     }]);
